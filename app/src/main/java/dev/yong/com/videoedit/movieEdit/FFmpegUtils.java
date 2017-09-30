@@ -1,0 +1,110 @@
+package dev.yong.com.videoedit.movieEdit;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Environment;
+import android.util.Log;
+
+import com.netcompss.ffmpeg4android.CommandValidationException;
+import com.netcompss.ffmpeg4android.GeneralUtils;
+import com.netcompss.ffmpeg4android.Prefs;
+import com.netcompss.ffmpeg4android.ProgressCalculator;
+import com.netcompss.loader.LoadJNI;
+
+/**
+ * 传入命令，交与ffmpeg库处理
+ * Created by HY on 2017/9/28.
+ */
+
+public class FFmpegUtils {
+
+    private static LoadJNI vk;
+    private final int FINISHED_TRANSCODING_MSG = 0;
+    private static final int STOP_TRANSCODING_MSG = -1;
+    private static String vkLogPath;
+    private static String workFolderPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/videokit/";
+    private  static FFmpegUtils utils;
+    private static ProgressDialog progressBar;
+
+    public static void renderMovie(final String commandStr, final String workLog, final Context context){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    vk.run(GeneralUtils.utilConvertToComplex(commandStr), workLog, context.getApplicationContext());
+                } catch (CommandValidationException e) {
+                    e.printStackTrace();
+                }
+                //将日志文件拷贝到视频输出文件夹
+                vkLogPath = workLog + "vk.log";
+                GeneralUtils.copyFileToFolder(vkLogPath, workFolderPath);
+            }
+        }).start();
+
+
+        progressBar = new ProgressDialog(context);
+        progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressBar.setTitle("videoEdit 正在转码...");
+        progressBar.setMessage("点取消按钮结束当前渲染队列");
+        progressBar.setMax(100);
+        progressBar.setProgress(0);
+
+        progressBar.setCancelable(false);
+        progressBar.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (progressBar != null) {
+                    progressBar.dismiss();
+                    // stopping the transcoding native
+                    vk.fExit(context.getApplicationContext());
+                    Log.d(Prefs.TAG,"任务终止");
+                }
+            }
+        });
+
+        progressBar.show();
+        // Progress update thread
+        new Thread() {
+            ProgressCalculator pc = new ProgressCalculator(vkLogPath);
+            public void run() {
+                Log.d(Prefs.TAG,"Progress update started");
+                int progress = -1;
+                try {
+                    while (true) {
+                        sleep(300);
+                        progress = pc.calcProgress();
+                        if (progress != 0 && progress < 100) {
+                            progressBar.setProgress(progress);
+                            Log.i(Prefs.TAG, "setting progress notification: " + progress );
+                        }
+                        else if (progress == 100) {
+                            Log.i(Prefs.TAG, "==== progress is 100, exiting Progress update thread");
+                            pc.initCalcParamsForNextInter();
+                            progressBar.setProgress(100);
+                            sleep(300);
+                            progressBar.dismiss();
+                            break;
+                        }
+                    }
+
+                } catch(Exception e) {
+                    Log.e("threadmessage",e.getMessage());
+                }
+            }
+        }.start();
+    }
+    private FFmpegUtils() {
+        if (vk==null){
+            vk = new LoadJNI();
+        }
+    }
+
+    public static FFmpegUtils getInstance(){
+
+        if (utils==null){
+            utils = new FFmpegUtils();
+        }
+        return utils;
+    }
+}
