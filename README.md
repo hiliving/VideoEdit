@@ -1,5 +1,5 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)]()
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)]()
+[![GitHub release](https://img.shields.io/badge/version-3.22-green.svg)]()
 [![GitHub release](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-Huangyong-ff69b4.svg)]()
 
 ## 安卓端集成可用的执行ffmpeg命令的库
