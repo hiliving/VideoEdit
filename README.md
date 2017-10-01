@@ -11,20 +11,21 @@
 拓展库下载：[libx264](http://pan.baidu.com/s/1eSImjv0)
 提取密码：8u1i
 
+### [英文文档](https://github.com/hiliving/VideoEdit/blob/master/README_EN.md)
 ### 主要功能：
 >文件处理
 + 1.视频压缩
     
-    -s 控制视频分辨率（如160X320）
-    -b 比特率（例如 150K）
-    这两个参数直接决定压缩质量，分辨率高，比特率增加，都可以提升画质，但是同时也会增加文件体积。
-    
-    
-    
-     //常规的压缩代码
-     ffmpeg -y -i /sdcard/videokit/in.mp4 -strict experimental -s 160x120 -r 25 -vcodec mpeg4 -b 150k -ab 48000 -ac 2 -ar 22050 /sdcard/videokit/out.mp4
-     //使用h264编码，需要拓展库
-     ffmpeg -y -i /sdcard/videokit/in.mp4 -strict experimental -vcodec libx264 -preset ultrafast -crf 24 -acodec aac -ar 44100 -ac 2 -b:a 96k -s 320x240 -aspect 4:3 /sdcard/videokit/out3.mp4
+        -s 控制视频分辨率（如160X320）
+        -b 比特率（例如 150K）
+        这两个参数直接决定压缩质量，分辨率高，比特率增加，都可以提升画质，但是同时也会增加文件体积。
+        
+        
+        
+         //常规的压缩代码
+         ffmpeg -y -i /sdcard/videokit/in.mp4 -strict experimental -s 160x120 -r 25 -vcodec mpeg4 -b 150k -ab 48000 -ac 2 -ar 22050 /sdcard/videokit/out.mp4
+         //使用h264编码，需要拓展库
+         ffmpeg -y -i /sdcard/videokit/in.mp4 -strict experimental -vcodec libx264 -preset ultrafast -crf 24 -acodec aac -ar 44100 -ac 2 -b:a 96k -s 320x240 -aspect 4:3 /sdcard/videokit/out3.mp4
    建议使用数组格式的命令，可以避免校验出现的问题。例如：
     
      String[] complexCommand = {"ffmpeg","-y" ,"-i", "/sdcard/video kit/in.mp4","-strict","experimental","-s", "160x120","-r","25", "-vcodec", "mpeg4", "-b", "150k", "-ab","48000", "-ac", "2", "-ar", "22050", "/sdcard/video kit/out.mp4"};
@@ -232,7 +233,6 @@
         
         //Convert animated gif to mp4:
         ffmpeg -y -f gif -i /sdcard/videokit/infile.gif /sdcard/videokit/outfile.mp4
-
 
 
 # License
