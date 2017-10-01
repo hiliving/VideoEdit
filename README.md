@@ -1,6 +1,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)]()
 [![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)]()
 [![GitHub release](https://img.shields.io/badge/%E4%BD%9C%E8%80%85-Huangyong-ff69b4.svg)]()
+
 ##安卓端集成可用的执行ffmpeg命令的库
 
 安卓应用纯java代码编辑你需要的功能，不需要自己写C代码和NDK，只需要关注逻辑实现。
@@ -9,6 +10,7 @@
 提取密码：30hi
 拓展库下载：[libx264](http://pan.baidu.com/s/1eSImjv0)
 提取密码：8u1i
+
 ###主要功能：
 >文件处理
 + 1.视频压缩
