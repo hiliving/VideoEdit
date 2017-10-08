@@ -86,13 +86,13 @@ public class TranscodeActivity extends Activity {
 		wakeLock.acquire();
 
  		EditText commandText = (EditText)findViewById(R.id.CommandText);
- 		String commandStr = commandText.getText().toString();
+// 		String commandStr = commandText.getText().toString();
+ 		String commandStr = "ffmpeg -y -i /sdcard/videokit/in.mov -strict experimental -an -r 1/2 -ss 00:00:03.205 -t 00:00:01 /sdcard/videokit/filename%03d.jpg";
 
  		///////////// Set Command using code (overriding the UI EditText) /////
  		// commandStr = "ffmpeg -y -i /sdcard/videokit/in.mp4 -strict experimental -s 320x240 -r 30 -aspect 4:3 -ab 48000 -ac 2 -ar 22050 -vcodec mpeg4 -b 2097152 /sdcard/videokit/out.mp4";
  		//String[] complexCommand = {"ffmpeg", "-y" ,"-i", "/data/data/com.examples.ffmpeg4android_demo/files/in.mp4","-strict","experimental","-s", "160x120","-r","25", "-vcodec", "mpeg4", "-b", "150k", "-ab","48000", "-ac", "2", "-ar", "22050", "/sdcard/videokit/out.mp4"};
  	 	///////////////////////////////////////////////////////////////////////
-
 
  		vk = new LoadJNI();
 		try {
@@ -101,6 +101,7 @@ public class TranscodeActivity extends Activity {
 			// 不校验命令，直接执行，这个方法会忽略语法措辞，可能会渲染失败
 			//vk.run(complexCommand, workLog, getApplicationContext(), false);
 
+//			vk.run(command, workLog, getApplicationContext());
 			vk.run(GeneralUtils.utilConvertToComplex(commandStr), workLog, getApplicationContext());
 
 			Log.i(Prefs.TAG, "vk.run finished.");

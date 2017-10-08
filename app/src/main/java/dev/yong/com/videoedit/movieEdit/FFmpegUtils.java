@@ -18,7 +18,7 @@ import com.netcompss.loader.LoadJNI;
  */
 
 public class FFmpegUtils {
-
+    private static String [] command = {"ffmpeg", "-y" ,"-i", "/sdcard/videokit/in.mp4","-ss","00:01:23.26","-r","1","-vframes","1","-an","-sn","-vcodec","/sdcard/videokit/out.mp4"};
     private static LoadJNI vk;
     private final int FINISHED_TRANSCODING_MSG = 0;
     private static final int STOP_TRANSCODING_MSG = -1;
@@ -27,12 +27,26 @@ public class FFmpegUtils {
     private  static FFmpegUtils utils;
     private static ProgressDialog progressBar;
 
-    public static void renderMovie(final String commandStr, final String workLog, final Context context){
+    public static void renderMovie(final String[] commandStr, final String workLog, final Context context){
+        progressBar = new ProgressDialog(context);
+        progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressBar.setTitle("videoEdit 正在转码...");
+        progressBar.setMessage("点取消按钮结束当前渲染队列");
+        progressBar.setMax(100);
+        progressBar.setProgress(0);
+        if (vk==null){
+            vk = new LoadJNI();
+        }
+        if (utils==null){
+            utils = new FFmpegUtils();
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    vk.run(GeneralUtils.utilConvertToComplex(commandStr), workLog, context.getApplicationContext());
+                    vk.run(commandStr, workLog, context.getApplicationContext());
+//                    vk.run(command, workLog, context.getApplicationContext());
                 } catch (CommandValidationException e) {
                     e.printStackTrace();
                 }
@@ -41,15 +55,6 @@ public class FFmpegUtils {
                 GeneralUtils.copyFileToFolder(vkLogPath, workFolderPath);
             }
         }).start();
-
-
-        progressBar = new ProgressDialog(context);
-        progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressBar.setTitle("videoEdit 正在转码...");
-        progressBar.setMessage("点取消按钮结束当前渲染队列");
-        progressBar.setMax(100);
-        progressBar.setProgress(0);
-
         progressBar.setCancelable(false);
         progressBar.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
             @Override
@@ -63,7 +68,6 @@ public class FFmpegUtils {
             }
         });
 
-        progressBar.show();
         // Progress update thread
         new Thread() {
             ProgressCalculator pc = new ProgressCalculator(vkLogPath);
@@ -93,18 +97,6 @@ public class FFmpegUtils {
                 }
             }
         }.start();
-    }
-    private FFmpegUtils() {
-        if (vk==null){
-            vk = new LoadJNI();
-        }
-    }
-
-    public static FFmpegUtils getInstance(){
-
-        if (utils==null){
-            utils = new FFmpegUtils();
-        }
-        return utils;
+        progressBar.show();
     }
 }

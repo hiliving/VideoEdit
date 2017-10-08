@@ -4,6 +4,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Camera permissions-->
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <!-- Microphone permissions-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,6 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".movieEdit.TranscodeActivity"/>
+        <activity android:name=".LocalVideoCompress"/>
+        <activity android:name=".CaptureActivity"
+
+            />
     </application>
 
 </manifest>

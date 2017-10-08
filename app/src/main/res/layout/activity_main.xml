@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/test"
+        android:layout_centerInParent="true"
         android:text="测试命令执行"
         />
     <Button
@@ -16,7 +17,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/chosef"
-        android:text="选择内容"
+        android:text="手动编写命令模式"
+        android:layout_centerInParent="true"
+        />
+
+    <Button
+        android:layout_below="@+id/chosef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/capture"
+        android:text="实时捕捉"
+        android:layout_centerInParent="true"
         />
 
 </RelativeLayout>

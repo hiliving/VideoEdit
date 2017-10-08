@@ -19,27 +19,43 @@ public class MainActivity extends AppCompatActivity {
     private Button chose;
     private Button chosef;
     private String workLog=null;
+    private String commandStr;
+    private String[] command;
+    private Button capture;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         chose = (Button) findViewById(R.id.test);
         chosef = (Button) findViewById(R.id.chosef);
+        capture = (Button) findViewById(R.id.capture);
         requestPermission();
         workLog = getApplicationContext().getFilesDir() + "/";
+        commandStr = getResources().getString(R.string.commandText);
+        command = new String[]{"ffmpeg", "-y" ,"-i", "/sdcard/videokit/in.mp4","-ss","00:01:23.26","-r","1","-vframes","1","-an","-sn","-vcodec","/sdcard/videokit/out.mp4"};
         chose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, TranscodeActivity.class));
             }
         });
+
         chosef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String commandStr = getResources().getString(R.string.commandText);
-                FFmpegUtils.getInstance().renderMovie(commandStr,workLog,MainActivity.this);
+                startActivity(new Intent(MainActivity.this,LocalVideoCompress.class));
+                //FFmpegUtils.renderMovie(commandStr,workLog,MainActivity.this);
             }
         });
+        capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,CaptureActivity.class));
+                //FFmpegUtils.renderMovie(commandStr,workLog,MainActivity.this);
+            }
+        });
+
     }
 
     private void requestPermission() {
