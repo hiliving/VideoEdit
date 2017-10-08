@@ -26,8 +26,8 @@
         <activity android:name=".movieEdit.TranscodeActivity"/>
         <activity android:name=".LocalVideoCompress"/>
         <activity android:name=".CaptureActivity"
-
             />
+        <activity android:name=".Camera2Activity"/>
     </application>
 
 </manifest>

@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,CaptureActivity.class));
+                startActivity(new Intent(MainActivity.this,Camera2Activity.class));
+//                startActivity(new Intent(MainActivity.this,CaptureActivity.class));
                 //FFmpegUtils.renderMovie(commandStr,workLog,MainActivity.this);
             }
         });
