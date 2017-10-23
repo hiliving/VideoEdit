@@ -27,7 +27,7 @@ public class FFmpegUtils {
     private  static FFmpegUtils utils;
     private static ProgressDialog progressBar;
 
-    public static void renderMovie(final String[] commandStr, final String workLog, final Context context){
+    public static void renderMovie(final String[] commandStr, final Context context){
         progressBar = new ProgressDialog(context);
         progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressBar.setTitle("videoEdit 正在转码...");
@@ -45,13 +45,13 @@ public class FFmpegUtils {
             @Override
             public void run() {
                 try {
-                    vk.run(commandStr, workLog, context.getApplicationContext());
+                    vk.run(commandStr, context.getApplicationContext().getFilesDir()+"/", context.getApplicationContext());
 //                    vk.run(command, workLog, context.getApplicationContext());
                 } catch (CommandValidationException e) {
                     e.printStackTrace();
                 }
                 //将日志文件拷贝到视频输出文件夹
-                vkLogPath = workLog + "vk.log";
+                vkLogPath =context.getApplicationContext().getFilesDir() + "/"+ "vk.log";
                 GeneralUtils.copyFileToFolder(vkLogPath, workFolderPath);
             }
         }).start();

@@ -52,7 +52,7 @@ public class LocalVideoCompress extends AppCompatActivity {
         run.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FFmpegUtils.renderMovie(commond,workLog,LocalVideoCompress.this);
+                FFmpegUtils.renderMovie(commond,LocalVideoCompress.this);
             }
         });
     }
